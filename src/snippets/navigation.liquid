@@ -1,0 +1,91 @@
+{% unless template contains 'password' %}
+  <nav class="nav-bar" role="navigation">
+    <ul class="site-nav" id="AccessibleNav">
+      {% assign linklist = linklists.main-menu %}
+      {% if customer.tags contains 'b2b' %}
+        {% assign linklist = linklists.wholesale %}
+      {% endif %}
+      
+      {% for link in linklist.links %}
+        {% assign child_list_handle = link.title | handleize %}
+        {% if customer.tags contains 'b2b' %}
+          {% assign child_list_handle = link.title | handleize | prepend: 'wholesale-' %}
+        {% endif %}
+      
+        {% if linklists[child_list_handle].links != blank %}
+          <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+            <a href="{{ link.url }}" class="site-nav__link">
+              {{ link.title }}
+              <span class="icon icon-arrow-down" aria-hidden="true"></span>
+            </a>
+            <ul class="site-nav__dropdown">
+              <div>
+                {% for childlink in linklists[child_list_handle].links %}
+                <li>
+                  <a href="{{ childlink.url }}" class="site-nav__link {% if childlink.active %} site-nav--active {% endif %}">{{ childlink.title | escape }}</a>
+                </li>
+                {% endfor %}
+              </div>
+              <span class="arrow">&nbsp;</span>
+            </ul>
+          </li>
+        {% else %}
+          <li>
+            <a href="{{ link.url }}" class="site-nav__link {% if link.active %} site-nav--active {% endif %}">{{ link.title }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% unless settings.menu_product == blank %}
+        <li class="btn__buy"><a href="{{ all_products[settings.menu_product].url }}" class="btn btn--outline {% if settings.menu_style == 'classic' %} btn--small btn--dark {% else %} btn--regular btn--light {% endif %}">{{ 'layout.navigation.buy_button' | t }} {{ all_products[settings.menu_product].price | money_without_trailing_zeros }}</a></li>
+      {% endunless %}
+
+      <li class="btn__cart">
+        <a href="javascript:;">
+          <span class="icon" aria-hidden="true">
+            <span class="count">{{ cart.item_count }}</span>
+            {% include 'asset_svg' with 'cart' %}
+          </span>
+          <span class="text">{{ 'layout.navigation.shopping_cart' | t }}</span>
+        </a>
+        
+        <div class="mini-cart">
+          <ul>
+            {%- for item in cart.items -%}
+              <li>
+                <div class="grid">
+                  <div class="grid__item one-quarter">
+                    <img src="{{ item | img_url: '50x50', crop: 'center' }}"
+                         srcset="{{ item | img_url: '50x50', crop: 'center', scale: 2 }} 2x"
+                         alt="{{ item.title | escape }}">
+                  </div>
+
+                  <div class="grid__item three-quarters">
+                    <h5>{{ item.title }}</h5>
+                    <p>{{ item.quantity }} x {{ item.price | money_with_currency }}</p>
+                  </div>
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+          
+          <a href="/cart" class="btn btn--fill btn--regular btn--color btn--full">{{ 'layout.navigation.shopping_cart' | t }}</a>
+        </div>
+      </li>
+
+      {% if shop.customer_accounts_enabled %}
+        <li class="btn__account">
+          <a href="/account{% unless customer %}/login{% endunless %}">
+            <span class="icon" aria-hidden="true">{% include 'asset_svg' with 'account' %}</span>
+            <span class="text">{{ 'layout.navigation.my_account' | t }}</span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <a id="menu-opener" class="lines-button" href="#">
+    <span class="fallback-text">{{ 'layout.navigation.open_menu' | t }}</span>
+    <span class="lines" aria-hidden="true"></span>
+  </a>
+{% endunless %}

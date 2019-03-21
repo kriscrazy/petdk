@@ -1,0 +1,55 @@
+<div class="wrapper wrapper--margins">
+  {% case section.blocks.size %}
+    {% when 1 %}
+      {% assign grid_class = 'grid__item text-center' %}
+    {% when 2 %}
+      {% assign grid_class = 'grid__item large--one-half medium--one-half small--text-center' %}
+    {% when 3 %}
+      {% assign grid_class = 'grid__item large--one-third medium-down--text-center' %}
+  {% endcase %}
+  
+  <div class="grid grid-margins">
+    {% for block in section.blocks %}
+      <div class="{{ grid_class }}">
+        <a href="{{ block.settings.url | default: '#' }}">
+          {% if block.settings.image %}
+            {% assign image = block.settings.image %}
+            <p><img src="{{ image | img_url: '600x450', crop: 'center' }}" alt="{{ image.alt }}"></p>
+          {% endif %}
+
+          {{ block.settings.content }}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Boxes",
+    "max_blocks": 3,
+    "settings": [],
+    "blocks": [
+      {
+        "type": "box",
+        "name": "Box",
+        "settings": [
+          {
+            "id": "content",
+            "type": "textarea",
+            "label": "Content"
+          },
+          {
+            "id": "url",
+            "type": "url",
+            "label": "URL"
+          },
+          {
+            "id": "image",
+            "type": "image_picker",
+            "label": "Background image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

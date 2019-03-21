@@ -1,0 +1,17 @@
+{% if shop.metafields.viabill_pricetag.data_currency %} 
+	{% assign viabill_data_currency = shop.metafields.viabill_pricetag.data_currency %}
+{% else %}
+  {% assign viabill_data_currency = "DKK" %}
+{% endif %}
+
+<div class="viabill-pricetag" data-view="list" data-price="{{ product.price | money }}"  data-currency="{{ viabill_data_currency }}"></div>
+<script>
+(function(){
+  var o=document.createElement('script');
+  o.type='text/javascript';
+  o.async=true;
+  o.src='https://secure.viabill.com/psp/web/webshop/pricetag/{{ shop.metafields.viabill_pricetag.shopuri }}';
+  var s=document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(o,s);
+})();
+</script>

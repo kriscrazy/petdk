@@ -1,0 +1,29 @@
+<div class="home-slideshow">
+
+  <div class="regular-slider flexslider">
+    <ul class="slides">
+
+      {% for i in (1..6) %}
+
+        {% capture slide_enable %}home_slide_{{ i }}_enable{% endcapture %}
+        {% capture slide_img %}home_slide_{{ i }}.jpg{% endcapture %}
+        {% capture slide_link %}home_slide_{{ i }}_link{% endcapture %}
+        {% capture slide_alt %}home_slide_{{ i }}_alt{% endcapture %}
+
+        {% if settings[slide_enable] %}
+          <li class="slide">
+            {% unless settings[slide_link] == blank %}
+              <a href="{{ settings[slide_link] }}">
+            {% endunless %}
+                <img src="{{ slide_img | asset_img_url: '1024x1024' }}" alt="{{ settings[slide_alt ] | escape }}">
+            {% unless settings[slide_link] == blank %}
+              </a>
+            {% endunless %}
+          </li>
+        {% endif %}
+
+      {% endfor %}
+
+    </ul>
+  </div>
+</div>

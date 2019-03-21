@@ -1,0 +1,40 @@
+<div class="home-video">
+  <a href="{{ settings.home-video-url | default: 'javascript:void(0)' }}">
+    <div class="wrapper wrapper--margins">
+      <div class="content{% unless settings.home-video-code == blank %} push-up {% endunless %}">
+        <div class="display-table">
+          <div class="display-table-cell">
+            {% if settings.home-video-text != blank %}
+              {{ settings.home-video-text }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      {% unless settings.home-video-code == blank %}
+        <a href="{{ settings.home-video-code }}" class="video-overlay"><span class="video-button">{% include 'asset_svg' with 'play_arrow' %}</span></a>
+      {% endunless %}
+
+    </div>
+
+    <style>
+      @media screen and (max-width: 600px) {
+        .prlx-bg {
+          background-image: url("{{ 'home-video-bg.jpg' | asset_img_url: 'grande' }}");
+            }
+      }
+      @media screen and (min-width: 601px) and (max-width: 1024px) {
+        .prlx-bg {
+          background-image: url("{{ 'home-video-bg.jpg' | asset_img_url: '1024x1024' }}");	
+            }
+      }
+      @media screen and (min-width: 1025px) {
+        .prlx-bg {
+          background-image: url("{{ 'home-video-bg.jpg' | asset_img_url: '2048x2048' }}");
+            }
+      }
+    </style>
+
+    <span class="prlx-bg"></span>
+  </a>
+</div>

@@ -1,0 +1,103 @@
+{% include 'saw_compute_discount' with product %}
+
+{% if customer.tags contains 'b2b' %}
+  {% if saw_discount == 1 %}
+    {% continue %}
+  {% endif %}
+{% endif %}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available %}
+  {% assign sold_out = false %}
+{% endif %}
+
+<div class="product grid__item small--one-whole medium--one-half large--one-third text-center">
+  <div class="image">
+    <a href="{{ product.url | within: collection }}" class="grid__image sale-{{ on_sale }} sold-{{ sold_out }}">
+      {% if product.featured_image %}
+        <img class="retina-img" src="{{ product.featured_image.src | img_url: 'large' }}" data-retina-src="{{ product.featured_image.src | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}">
+      {% else %}
+        <img src="{{ 'no-image.svg' | asset_url }}" alt="" />
+      {% endif %}
+      {% if sold_out %}
+        <span class="badge badge--sold-out">{{ 'products.product.sold_out' | t }}</span>
+      {% elsif on_sale %}
+        <span class="badge badge--on-sale">{{ 'products.product.on_sale' | t }}</span>
+      {% endif %}
+    </a>
+    
+    <a href="#" class="quick-cart">{% include 'asset_svg' with 'cart' %}</a>
+    <div class="quick-cart-content">
+      <h4>{{ product.title }}</h4>
+        
+      {%- if product.available -%}
+        <form action="/cart" method="post" class="quick-cart-form">
+          <div class="form__row">
+            <div class="form__column full {% if product.has_only_default_variant %}hidden{% endif %}">
+              <select name="id" class="input-full">
+                {%- for variant in product.variants -%}
+                  {%- if variant.available -%}
+                    <option value="{{ variant.id }}">
+                      {{ variant.title }} - {{ variant.price | money_with_currency }}
+                    </option>
+                  {%- else -%}
+                    <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+                  {%- endif -%}
+                {%- endfor -%}
+              </select>
+            </div>
+
+            <div class="form__column quantity-selector">
+              <input type="number" name="quantity" value="1" min="1" class="qty-remove-defaults quantity-selector">
+            </div>
+
+            <div class="form__column">
+              <button class="btn btn--fill btn--regular btn--color">
+                {{ 'products.product.add_to_cart' | t }}
+              </button>
+            </div>
+          </div>
+        </form>
+      {%- else -%}
+        <div class="form__row">
+          <div class="form__column full">
+            <b>{{ 'products.product.sold_out' | t }}</b>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <h3><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h3>
+  {% if product.variants.size == 1 %}
+    {% if product.variants[0].sku != blank %}
+      <p>{{ product.variants[0].sku }}</p>
+    {% endif %}
+  {% else %}
+    <p>
+      {% for variant in product.variants %}
+        {% if variant.sku != blank %}
+          {{ variant.title }}: {{ variant.sku }}<br>
+        {% endif %}
+      {% endfor %}
+    </p>
+  {% endif %}
+
+  <p class="price">
+    {% include 'saw_compute_discount' with product %}
+    {% if saw_has_discount == false or saw_product_price >= saw_product_compare_at_price %}
+      {% if product.price_varies %}{{ 'products.product.on_sale_from' | t }}{% endif %}
+      {{ product.price | money }}
+      {% if on_sale %}
+        <span>{{ product.compare_at_price | money }}</span>
+      {% endif %}
+    {% else %}
+      {{ saw_product_price | money }} <small>{{ 'products.product.excluding_vat' | t }}</small>
+    {% endif %}
+  </p>
+</div>

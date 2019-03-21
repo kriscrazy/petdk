@@ -1,0 +1,69 @@
+<div class="home-faq-list">
+	<div class="wrapper wrapper--margins">
+
+		<h2 class="home-section-title">{{ 'homepage.titles.faq' | t }}</h2>
+
+		<div class="jumpstart-accordion">
+
+			{% unless settings.home-faq-a-title == blank %}
+				<div class="section opened">
+					<h4 class="title">{{ settings.home-faq-a-title }}</h4>
+					<div class="content"><p>{{ settings.home-faq-a-content }}</p></div>
+				</div>
+			{% endunless %}
+
+			{% unless settings.home-faq-b-title == blank %}
+				<div class="section">
+					<h4 class="title">{{ settings.home-faq-b-title }}</h4>
+					<div class="content"><p>{{ settings.home-faq-b-content }}</p></div>
+				</div>
+			{% endunless %}
+
+			{% unless settings.home-faq-c-title == blank %}
+				<div class="section">
+					<h4 class="title">{{ settings.home-faq-c-title }}</h4>
+					<div class="content"><p>{{ settings.home-faq-c-content }}</p></div>
+				</div>
+			{% endunless %}
+
+			{% unless settings.home-faq-d-title == blank %}
+				<div class="section">
+					<h4 class="title">{{ settings.home-faq-d-title }}</h4>
+					<div class="content"><p>{{ settings.home-faq-d-content }}</p></div>
+				</div>
+			{% endunless %}
+
+			{% unless settings.home-faq-e-title == blank %}
+				<div class="section">
+					<h4 class="title">{{ settings.home-faq-e-title }}</h4>
+					<div class="content"><p>{{ settings.home-faq-e-content }}</p></div>
+				</div>
+			{% endunless %}
+
+			{% unless settings.home-faq-f-title == blank %}
+				<div class="section">
+					<h4 class="title">{{ settings.home-faq-f-title }}</h4>
+					<div class="content"><p>{{ settings.home-faq-f-content }}</p></div>
+				</div>
+			{% endunless %}
+
+			<!-- onboarding -->
+			{% if settings.home-faq-a-title == blank and settings.home-faq-b-title == blank and settings.home-faq-c == blank %}
+				<div class="section opened">
+					<h4 class="title">{{ 'homepage.onboarding.section_title' | t }}</h4>
+					<div class="content"><p>{{ 'homepage.onboarding.section_text_html' | t }}</p></div>
+				</div>	
+				<div class="section">
+					<h4 class="title">{{ 'homepage.onboarding.section_title' | t }}</h4>
+					<div class="content"><p>{{ 'homepage.onboarding.section_text_html' | t }}</p></div>
+				</div>		
+				<div class="section">
+					<h4 class="title">{{ 'homepage.onboarding.section_title' | t }}</h4>
+					<div class="content"><p>{{ 'homepage.onboarding.section_text_html' | t }}</p></div>
+				</div>				
+			{% endif %}
+
+		</div>
+
+	</div>
+</div>

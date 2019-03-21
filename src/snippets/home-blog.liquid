@@ -1,0 +1,35 @@
+<div class="home-blog">
+	<div class="wrapper wrapper--margins">
+
+		{% if blogs[settings.home-blog-select] != blank %}
+
+			<h2 class="home-section-title">{{ blogs[settings.home-blog-select].title }}</h2>
+
+			{% paginate blogs[settings.home-blog-select].articles by 3 %}
+
+				<div class="blog-list">
+
+					{% for article in blogs[settings.home-blog-select].articles %}
+						{% include 'blog_item' with blogs[settings.home-blog-select].comments_enabled? %}
+					{% endfor %}
+
+				</div>
+
+				{% if paginate.next.is_link %}
+					<p class="text-center"><a class="btn btn--large btn--outline btn--dark" href="{{ blogs[settings.home-blog-select].url }}">More posts</a></p>
+				{% endif %}
+
+			{% endpaginate %}
+
+		{% else %}
+
+			<!-- onboarding -->
+			<div class="onboarding">
+				<h2 class="home-section-title">{{ 'homepage.onboarding.section_title' | t }}</h2>
+				<p>{{ 'homepage.onboarding.section_text_html' | t }}</p>
+			</div>
+
+		{% endif %}
+
+	</div>
+</div>

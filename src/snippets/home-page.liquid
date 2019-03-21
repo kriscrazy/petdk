@@ -1,0 +1,21 @@
+<div class="home-page-content overlay-{{ settings.home-page-background }}" {% if settings.home-page-bg %} style="background-image:url({{ 'home-page-bg.jpg' | asset_url }})" {% endif %}>
+  <div class="wrapper wrapper--margins">
+    
+    {% if settings.home-page-select == blank or pages[settings.home-page-select].empty? %}
+    
+      <!-- onboarding -->
+      <h2 class="home-section-title">{{ 'homepage.onboarding.section_title' | t }}</h2>
+      <p>{{ 'homepage.onboarding.section_text_html' | t }}</p>
+
+    {% else %}
+
+      <h2 class="home-section-title">{{ pages[settings.home-page-select].title }}</h2>
+      
+      <div class="rte">
+        {{ pages[settings.home-page-select].content }}
+      </div>
+
+    {% endif %}
+
+  </div>
+</div>

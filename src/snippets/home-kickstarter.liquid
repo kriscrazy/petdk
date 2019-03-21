@@ -1,0 +1,70 @@
+{% assign noOnboarding = false %}
+{% if settings.home-kickstarter-title != blank or settings.home-kickstarter-subtitle != blank or settings.home-kickstarter-percent != blank or settings.home-kickstarter-amount != blank or settings.home-kickstarter-backers != blank %}
+  {% assign noOnboarding = true %}
+{% endif %}
+
+<div class="home-kickstarter">
+
+	{% if settings.home-kickstarter-bg %}
+		<span class="prlx-bg" style="background-image: url({{ 'home-kickstarter-bg.jpg' | asset_url }})">
+			<img src="{{ 'home-kickstarter-bg.jpg' | asset_url }}" alt="{{ settings.home-kickstarter-title }}" />
+		</span>
+	{% endif %}
+	
+	<div class="wrapper wrapper--margins">
+
+		<div class="kickstarter__content {% unless settings.home-kickstarter-bg %} text-center {% endunless %}">
+
+			{% if noOnboarding %}
+
+				{% unless settings.home-kickstarter-title == blank %}
+					<h2>{{ settings.home-kickstarter-title }}</h2>
+				{% endunless %}
+
+				{% unless settings.home-kickstarter-subtitle == blank %}
+					<h3>{{ settings.home-kickstarter-subtitle }}</h3>
+				{% endunless %}
+
+				<div class="kickstarter__meta kickstarter--{{ settings.home-kickstarter-style }}">
+					<div class="kickstarter__graphic bar" data-value="{{ settings.home-kickstarter-percent }}" data-color="{{ settings.color_primary }}"></div>
+					<div class="kickstarter__graphic pie" data-value="{{ settings.home-kickstarter-percent }}" data-color="{{ settings.color_primary }}"></div>
+					<ul>
+					{% unless settings.home-kickstarter-percent == blank %}	
+						<li><strong>{{ settings.home-kickstarter-percent }}%</strong><span>{{ 'homepage.crowdfunding_campaign.funded' | t }}</span></li>
+					{% endunless %}	
+					{% unless settings.home-kickstarter-amount == blank %}	
+						<li><strong>{{ settings.home-kickstarter-amount }}</strong><span>{{ 'homepage.crowdfunding_campaign.pledged' | t }}</span></li>
+					{% endunless %}	
+					{% unless settings.home-kickstarter-backers == blank %}
+						<li><strong>{{ settings.home-kickstarter-backers }}</strong><span>{{ 'homepage.crowdfunding_campaign.backers' | t }}</span></li>
+					{% endunless %}	
+					</ul>
+				</div>
+
+				{% if settings.home-kickstarter-url != blank %}
+					<a href="{{ settings.home-kickstarter-url }}" class="btn btn--regular btn--dark btn--outline">{{ 'homepage.crowdfunding_campaign.pledge_button' | t }}</a>
+				{% endif %}
+
+			{% else %}
+
+				<!-- onboarding -->
+				<h2>{{ 'homepage.onboarding.section_title' | t }}</h2>
+				<h3>{{ 'homepage.onboarding.section_text_html' | t }}</h3> 
+
+				<div class="kickstarter__meta kickstarter--{{ settings.home-kickstarter-style }}">
+					<div class="kickstarter__graphic bar" data-value="75" data-color="{{ settings.color_primary }}"></div>
+					<div class="kickstarter__graphic pie" data-value="75" data-color="{{ settings.color_primary }}"></div>
+					<ul>
+						<li><strong>75%</strong><span>{{ 'homepage.crowdfunding_campaign.funded' | t }}</span></li>
+						<li><strong>$1000</strong><span>{{ 'homepage.crowdfunding_campaign.pledged' | t }}</span></li>
+						<li><strong>10</strong><span>{{ 'homepage.crowdfunding_campaign.backers' | t }}</span></li>
+					</ul>
+				</div>
+
+			{% endif %}
+
+		</div>
+
+	</div>
+
+</div>

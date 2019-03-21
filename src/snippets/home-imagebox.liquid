@@ -1,0 +1,55 @@
+<div class="home-imagebox">
+	<div class="grid__item one-half medium-down--one-whole image {% if settings.home-featured-1-align == 'right-img' %} push--large--one-half {% endif %}" style="background-image: url({{ 'home-featured-1.jpg' | asset_url }})">
+		<img src="{{ 'home-featured-1.jpg' | asset_url }}" alt="{{ settings.home-featured-1-title }}" />
+	</div>
+	<div class="content wrapper">
+		<div class="grid__item one-half medium-down--one-whole content {% if settings.home-featured-1-align == 'left-img' %} push--large--one-half {% else %} pull--no {% endif %}">
+			<div class="large--display-table">
+				<div class="large--display-table-cell">
+
+					{% if settings.home-featured-1-title != blank %}
+
+						<h3>{{ settings.home-featured-1-title }}</h3>
+						{% unless settings.home-featured-1-content == blank %}
+						  <p>{{ settings.home-featured-1-content }}</p>
+						{% endunless %}
+						{% unless settings.home-featured-1-btn-label == blank %}
+							<a class="btn btn--regular btn--outline btn--light" href="{{ settings.home-featured-1-btn-url }}">{{ settings.home-featured-1-btn-label }}</a>
+						{% endunless %}
+
+					{% else %}
+
+						<!-- onboarding -->
+						<h3>{{ 'homepage.onboarding.section_title' | t }}</h3>
+						<p>{{ 'homepage.onboarding.section_text_html' | t }}</p>
+
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% unless settings.home-featured-2-title == blank %}
+	<div class="home-imagebox">
+		<div class="image grid__item one-half medium-down--one-whole {% if settings.home-featured-2-align == 'right-img' %} push--large--one-half {% endif %}" style="background-image: url({{ 'home-featured-2.jpg' | asset_url }})">
+			<img src="{{ 'home-featured-2.jpg' | asset_url }}" alt="{{ settings.home-featured-2-title }}" />
+		</div>
+		<div class="content wrapper">
+			<div class="grid__item one-half medium-down--one-whole content {% if settings.home-featured-2-align == 'left-img' %} push--large--one-half {% else %} pull--no {% endif %}">
+				<div class="large--display-table">
+					<div class="large--display-table-cell">
+						<h3>{{ settings.home-featured-2-title }}</h3>
+						{% unless settings.home-featured-2-content == blank %}
+						  <p>{{ settings.home-featured-2-content }}</p>
+						{% endunless %}
+						{% unless settings.home-featured-2-btn-label == blank %}
+							<a class="btn btn--regular btn--outline btn--light" href="{{ settings.home-featured-2-btn-url }}">{{ settings.home-featured-2-btn-label }}</a>
+						{% endunless %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endunless %}

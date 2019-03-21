@@ -1,0 +1,66 @@
+<div class="home-clients">
+
+ 	{% assign cols = 0 %}
+  {% for i in (1..6) %}
+    {% capture client %}home-client-{{ i }}{% endcapture %}
+  	{% if settings[client] %}{% assign cols = cols | plus: 1 %}{% endif %}
+  {% endfor %}
+
+	{% case cols %}
+		{% when 1 %}
+			{% assign grid_class = 'grid__item one-whole' %}
+		{% when 2 %}
+			{% assign grid_class = 'grid__item one-half' %}
+		{% when 3 %}
+			{% assign grid_class = 'grid__item one-third' %}
+		{% when 4 %}
+			{% assign grid_class = 'grid__item one-quarter' %}
+		{% when 5 %}
+			{% assign grid_class = 'grid__item one-fifth' %}
+		{% else %}
+			{% assign grid_class = 'grid__item one-sixth medium-down--one-third' %}
+	{% endcase %}
+
+	<div class="wrapper">
+        
+    {% if cols != 0 %}
+    
+		<ul class="clients-list grid small-gutter">
+
+      {% for i in (1..6) %}
+        {% capture client %}home-client-{{ i }}{% endcapture %}
+        {% capture image %}home-client-{{ i }}.png{% endcapture %}
+        {% capture link %}home-client-{{ i }}-link{% endcapture %}
+        {% capture alt %}home-client-{{ i }}-alt{% endcapture %}
+        
+			  {% if settings[client] %} 
+				  <li class="{{ grid_class }}">
+					  <span class="dummy-holder"></span>
+					  <div class="img-container">
+						  <div class="dummy-centered"></div>
+						  {% if settings[link] != blank %}
+							  <a href="{{ settings[link] }}" target="_blank">
+						  {% endif %}
+							  <img src="{{ image | asset_url }}" alt="{{ settings[alt] | escape }}" />
+						  {% if settings[link] != blank %}
+							  </a>
+						  {% endif %}
+					  </div>
+				  </li> 
+			  {% endif %}
+        
+      {% endfor %}
+
+		</ul>
+    
+    {% else %}
+    
+      <!-- onboarding -->
+      <div class="onboarding display-table">
+        <p class="display-table-cell">{{ 'homepage.onboarding.section_text_html' | t }}</p>
+      </div>
+         
+    {% endif %}
+    
+	</div>
+</div>

@@ -1,0 +1,65 @@
+{% assign header_title = collection.title %}
+{% include 'page_header' with header_title %}
+
+<div class="wrapper wrapper--margins">
+
+  {% if collection.image %}
+    <div class="collection-image">
+      <img src="{{ collection.image.src | img_url: '1024x1024' }}" alt="{{ collection.image.alt }}" />
+    </div>
+  {% endif %}
+  
+    <div class="collection-list grid-uniform {% unless shop.products_count == 0 %} small-gutter {% endunless %}">
+
+      {% for product in collection.products limit: 12 %}
+        {% include 'product-grid-item' %}
+      {% else %}
+        {% if shop.products_count == 0 %}
+        
+          {% unless emptyState %}
+          {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+          {% assign emptyState = true %}
+          {% endunless %}
+
+          <div class="grid__item">
+            <div class="helper-section">
+              <div class="helper-note">
+                <span class="helper-icon"></span>
+                <h3>{{ 'homepage.onboarding.modal_title' | t }}</h3>
+                <p>{{ 'homepage.onboarding.no_products_collection' | t }}</p>
+                <p><a class="admin-btn-primary" href="/admin/products/new">{{ 'homepage.onboarding.add_product' | t }}</a></p>
+              </div>
+
+              <div class="collection-list grid-uniform helper-content">
+                {% assign index = 1 %}
+                {% for i in (1..6) %}
+                  <div class="product grid__item one-third medium--one-half small--one-whole text-center">
+                    <a href="/admin/products" class="grid__image">
+                      {% capture imageUrl %}//cdn.shopify.com/s/images/themes/product-{{ index }}.png{% endcapture %}
+                      {{ imageUrl | img_tag }}
+                    </a>
+                    <h3>{{ 'homepage.onboarding.product_title' | t }}</h3>
+                    <p class="price">
+                      $19.99
+                    </p>
+                  </div>
+                {% assign index = index | plus: 1 %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div class="grid__item">
+            <p><em>{{ 'collections.general.no_matches' | t }}</em></p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    
+    {% include 'page_pagination' %}
+
+</div>
+
+{% unless shop.products_count == 0 %}
+  {{ '//cdnjs.cloudflare.com/ajax/libs/packery/1.4.3/packery.pkgd.min.js' | script_tag }}
+{% endunless %}

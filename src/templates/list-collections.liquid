@@ -1,0 +1,44 @@
+{% assign header_title = 'Collections' %}
+{% include 'page_header' with header_title %}
+
+<div class="wrapper wrapper--margins">
+
+  <div class="collection-list grid-uniform small-gutter">
+
+    {% for collection in collections %}
+
+      {% if collection.handle == 'frontpage' %}
+        {% continue %}
+      {% endif %}
+
+      {% if collection.image %}
+        {% capture collection_image %} {{ collection | img_url: 'large' }} {% endcapture %}
+        {% capture collection_image_x2 %} {{ collection | img_url: 'grande' }} {% endcapture %}
+        {% capture collection_alt %} {{ collection.image.alt }} {% endcapture %}
+      {% else %}
+        {% if collection.products.size == 0 %}
+          {% capture collection_image %}{{ 'no-image.svg' | asset_url }}{% endcapture %}
+        {% else %}
+          {% capture collection_image %} {{ collection.products.first | img_url: 'large' }} {% endcapture %}
+          {% capture collection_image_x2 %} {{ collection.products.first | img_url: 'grande' }} {% endcapture %}
+        {% endif %}
+        {% capture collection_alt %} {{ collection.title.escape }} {% endcapture %}
+      {% endif %}
+
+      <div class="product grid__item one-third medium--one-half small--one-whole text-center">
+
+        <a href="{{ collection.url }}" class="grid__image">
+          <img class="retina-img" src="{{ collection_image }}" data-retina-src="{{ collection_image_x2 }}" alt="{{ collection_alt }}">
+        </a>
+
+        <h3><a href="{{ collection.url }}">{{ collection.title }}</a></h3>
+
+      </div>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+{{ '//cdnjs.cloudflare.com/ajax/libs/packery/1.4.3/packery.pkgd.min.js' | script_tag }}

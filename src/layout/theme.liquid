@@ -1,0 +1,226 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <meta name="google-site-verification" content="5u7IHRoPJkSPCuScXoIzd5HtntvOex5UoIFQ5Zzy06g">
+  <meta name="google-site-verification" content="spjHrGcB2NxGxFhfw_t2bYnhruu4hFyAdU_TIpoL2o4">
+  
+  <!-- start Omniconvert.com code -->
+  <link rel="dns-prefetch" href="//app.omniconvert.com" />
+  <script type="text/javascript">window._mktz=window._mktz||[];</script>
+  <script src="//cdn.omniconvert.com/js/a58259c.js"></script>
+  <!-- end Omniconvert.com code -->
+  
+  <!-- Hotjar Tracking Code for https://petdk.dk/ -->
+  <script>
+    (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:992861,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+
+  {% if settings.favicon_enable %}
+    <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
+
+  <title>
+    {% if template == 'password' %}{{ shop.name }}{% else %}{{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}{% endif %}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  {% include 'social-meta-tags' %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+
+  {% include 'head_fonts' %}
+  {{ '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' | stylesheet_tag }}
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+
+  {{ content_for_header }}
+
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+
+  {% if template contains 'customers' %}
+    {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% endif %}
+</head>
+
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+  {% if template == "index" %}
+    {% if settings.home_section_a == "home-video" %}
+      {% if settings.home_video_bg_text_color == "is-dark" %}
+        {% assign color = "is-dark" %}
+      {% elsif settings.home_video_bg_text_color == "is-light" %}
+        {% assign color = "is-light" %}
+        {% if settings.logo_use_inverted %}
+          {% assign use_logo_inverted = true %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endif %}  
+  
+  {% section 'top-bar' %}
+
+  <div id="PageContainer"{% if color %} class="{{ color }}"{% endif %}>
+    <header class="site-header site-header--{{ settings.menu_style }}" role="banner">
+      <div class="wrapper">
+        {% if template == 'index' %}
+          <h1 class="site-header__logo {% if settings.logo_use_image %} display-table use-image {% endif %}" itemscope itemtype="http://schema.org/Organization">
+        {% else %}
+          <div class="h1 site-header__logo {% if settings.logo_use_image %} display-table use-image {% endif %}" itemscope itemtype="http://schema.org/Organization">
+        {% endif %}
+          {% if settings.logo_use_image %}
+            {% assign logo_inverted_url = 'logo-inverted.png' | asset_url %}
+            <a href="/" itemprop="url" class="site-header__logo-link display-table-cell{% if use_logo_inverted %} logo--has-inverted{% endif %}">
+              <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+            </a>
+            {% if use_logo_inverted %}
+              <a href="/" itemprop="url" class="site-header__logo-link display-table-cell logo--inverted">
+                <img src="{{ 'logo-inverted.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+              </a>
+            {% endif %}
+          {% else %}
+            <a href="/" itemprop="url" class="site-header__logo-text">{{ shop.name }}</a>
+          {% endif %}
+        {% if template == 'index' %}
+          </h1>
+        {% else %}
+          </div>
+        {% endif %}
+
+        {% include 'navigation' %}
+
+        {% if template contains 'password' %}
+          <p class="password-login right">
+            <a href="#login-modal" class="js-toggle-login-modal" data-mfp-src="#login-modal">
+              <span aria-hidden="true">{% include 'asset_svg' with 'lock' %}</span>
+              <span class="fallback-text">{{ 'general.password_page.password_link' | t }}</span>
+            </a>
+          </p>
+        {% endif %}
+      </div>
+    </header>
+
+    <main class="main-content" role="main">{{ content_for_layout }}</main>
+
+    {% if settings.footer_social_enable %}
+      <aside class="social-footer">
+        <div class="wrapper display-table">
+          <div class="display-table-cell">
+            <ul class="inline-list social-icons">
+              {% include 'footer_social-icons' %}
+            </ul>
+          </div>
+        </div>
+      </aside>
+    {% endif %}
+
+    <footer class="site-footer small--text-center" role="contentinfo">
+      <div class="wrapper text-center">
+        <div class="h1 site-header__logo" itemscope itemtype="http://schema.org/Organization">
+          {% if settings.footer_logo_use_image %}
+            <a href="/" itemprop="url" class="site-header__logo-link">
+              <img src="{{ 'footer_logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+            </a>
+          {% else %}
+            <a href="/" itemprop="url" class="site-header__logo-text">{{ shop.name }}</a>
+          {% endif %}  
+        </div>
+        
+          <p>
+            PETDK<br>
+            Vognmagervej 3<br>
+            7000 Fredericia<br>
+            Mail: info@petdk.dk<br>
+            CVR nr.: 37821152<br>
+            Telefon: +45 60645225
+          </p>
+
+        {% if linklists.footer != blank %}
+          <div class="link-list">
+            {% for link in linklists.footer.links %}
+              <a class="footer-link" href="{{ link.url }}">{{ link.title }}</a>
+            {% endfor %}
+          </div>
+          <hr>
+        {% endif %}
+
+        <div class="copy">
+          <p class="text">{{ 'layout.footer.copyright' | t }} &copy; {{ 'now' | date: "%Y" }} <a href="/">{{ shop.name }}</a></p>
+          <p class="powered">{{ powered_by_link }}</p>
+        </div>
+
+        {% if settings.footer_payment_enable and shop.enabled_payment_types != empty %}
+          <div class="pay-icons">
+            {% for type in shop.enabled_payment_types %}
+              {% include 'asset_svg' with type %}
+            {% endfor %}
+            <img src="https://cdn.shopify.com/s/files/1/1307/0463/files/VIABILL_light_grey_60px.png?11492593350336394151" style="height: 24px;padding: 0px;margin: 0px 0 15px 10px;
+
+vertical-align: bottom;">
+          </div>
+        {% endif %}
+      </div>
+    </footer>
+  </div>
+ 
+  <script type="text/javascript">
+    if ( window.devicePixelRatio > 1 ) {
+      var retinaImages = document.getElementsByClassName('retina-img');
+      for (var i = 0; i <= retinaImages.length; i++ ) {
+        if ( retinaImages[i] != undefined ) {
+          retinaImages[i].setAttribute('src', retinaImages[i].getAttribute('data-retina-src'));
+        }
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
+    {% capture jQuery_plus_icon %} {% include "asset_svg" with "plus" %} {% endcapture %}
+    {% capture jQuery_minus_icon %} {% include "asset_svg" with "minus" %} {% endcapture %}
+    {% capture jQuery_close_icon %} {% include "asset_svg" with "close" %} {% endcapture %}
+    {% capture jQuery_arrow_down_icon %} {% include "asset_svg" with "arrow_down" %} {% endcapture %}
+    {% capture jQuery_arrow_left_icon %} {% include "asset_svg" with "arrow_left" %} {% endcapture %}
+    {% capture jQuery_arrow_right_icon %} {% include "asset_svg" with "arrow_right" %} {% endcapture %}
+
+    jQuery.themeAssets = {
+      plus: '{{ jQuery_plus_icon | lstrip | rstrip }}',
+      minus: '{{ jQuery_minus_icon | lstrip | rstrip }}',
+      close: '{{ jQuery_close_icon | lstrip | rstrip }}',
+      arrow_down: '{{ jQuery_arrow_down_icon | lstrip | rstrip }}',
+      arrow_left: '{{ jQuery_arrow_left_icon | lstrip | rstrip }}',
+      arrow_right: '{{ jQuery_arrow_right_icon | lstrip | rstrip }}'
+    }
+  </script>
+
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  {{ 'theme.js' | asset_url | script_tag }}
+ 
+  <script>
+    {% if newHash %}
+      $(function() {
+        timber.updateHash('{{ newHash }}');
+      });
+    {% endif %}
+    {% if resetPassword %}
+      $(function() {
+        timber.resetPasswordSuccess();
+      });
+    {% endif %}
+  </script>
+           
+  {% include 'subscription-theme-footer' %}
+  {% include 'back-in-stock-helper' %}
+</body>
+</html>
