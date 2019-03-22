@@ -695,14 +695,14 @@ a.parent("object").length||a.parent(".fluid-width-video-wrapper").length)){a.css
     
     // Mini cart
     function openMiniCart(event) {
-      
-      if ($(event.target).closest(timber.cache.$miniCart.selector).length === 0) {
+      if ($wrapper.width() < (navWidth + logoWidth)) {
+        window.location.href = '/cart';
+      } else if ($(event.target).closest(timber.cache.$miniCart.selector).length === 0) {
         $(this).find('.mini-cart').toggleClass('active');
       }
     }
     
-    $siteHeader.on('click', '.btn__cart', openMiniCart);
-    $siteHeaderSticky.on('click', '.btn__cart', openMiniCart);
+    $('.btn__cart').on('click', openMiniCart);
     
     $(document).on('click', function(event) {
       var target = $(event.target);
