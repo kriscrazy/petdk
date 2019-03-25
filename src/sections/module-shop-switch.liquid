@@ -1,0 +1,263 @@
+{% assign current_path = canonical_url | remove_first: shop.url %}
+
+{% for block in section.blocks %}
+  {% if block.settings.current %}
+    {% assign current_country = block.settings.demonym %}
+  {% endif %}
+{% endfor %}
+
+{% if section.settings.mode != 'disabled' and section.blocks.size > 0 %}
+
+{% capture countries %}
+[{% for country in section.blocks %}
+  {%- comment -%}
+    Create url with protocol and current path
+  {%- endcomment -%}
+  {%- assign url_with_protocol = country.settings.domain | append: current_path -%}
+  {%- unless url_with_protocol contains 'http' -%}
+    {%- assign url_with_protocol = url_with_protocol | prepend: 'https://' -%}
+  {%- endunless -%}
+  {
+    "country_code": {{ country.settings.country_code | json }},
+    "current": {{ country.settings.current | json }},
+    "default": {{ country.settings.default | json }},
+    "url": {{ url_with_protocol | json }},
+    "currency": {{ country.settings.currency | json }},
+    "id": {{ country.id | json }},
+    "title": {{ country.settings.title | json }},
+    "img": {{ country.settings.flag | img_url: '64x' | json }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}]
+{% endcapture %}
+
+{% capture switch_template %}
+{% raw %}
+    {{#countries}}
+      {{#current}} <img src="{{img}}" class="shop-switch__dropdown--flag"> {{currency}}{{/current}}
+    {{/countries}}
+{% endraw %}
+{% endcapture %}
+
+<div
+id="ShopSwitch-{{ section.id }}"
+class="modal modal--square modal--mobile-friendly"
+data-section-id="{{ section.id }}"
+data-section-type="shop-switch"
+data-delay-days="{{ section.settings.popup_days }}"
+data-delay-seconds="{{ section.settings.popup_seconds }}"
+data-countries='{{ countries }}'
+data-test-mode="{% if section.settings.mode == 'testing' %}true{% else %}false{% endif %}"
+data-mode="{{ section.settings.mode }}"
+data-switcher-template="{{ switch_template | escape }}"
+data-switcher-enable="{{ section.settings.switcher_enable }}"
+data-cookie-name="shop-switch-{{ shop.email | split: '@' | last | split: '.' | first | handlize }}">
+<div class="modal__inner">
+  <div class="modal__centered medium-up--text-center">
+    <div class="modal__centered-content">
+
+      <div class="shop-switch">
+
+        <div class="modal-text">
+
+          <img class="modal-logo" src="{{ section.settings.popup_image | img_url: '200x', scale: 2 }}" alt="">
+
+          {% if section.settings.popup_title != blank %}
+          <h3>{{ section.settings.popup_title }}</h3>
+          {% endif %}
+
+          {% if section.settings.popup_subtitle != blank %}
+          <p class="modal-subtitle">{{ section.settings.popup_subtitle }}</p>
+          {% endif %}
+
+          <div class="countries-list">
+
+            {%- for block in section.blocks -%}
+
+            {% assign block_url = "https://" | append: block.settings.domain | append: current_path %}
+
+              <a class="countries-list__item" id="{{ block.id }}" {{ block.shopify_attributes }} href="{{ block_url }}?switch" target="_self">
+                {% if block.settings.flag != blank %}
+                <div class="countries-list__flag">
+                  <img src="{{ block.settings.flag | img_url: '400x' }}" alt="{{ block.settings.title }}">
+                </div>
+                {% endif %}
+
+                <div class="countries-list__cta">
+                  {{ block.settings.title }} <small>({{ block.settings.currency }})</small>
+                </div>
+              </a>
+            {%- endfor -%}
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="modal__close js-modal-close Icon-Wrapper" title="{{ 'general.accessibility.close_modal' | t | json }}">
+      {% include 'icon', id: 'close' %}
+    </button>
+  </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".shop-switch__dropdown").click(function(e){
+      $(e.target).find('.dropdown-button').focus();
+    });
+  });
+</script>
+
+
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "Shop Switch",
+  "settings": [
+  {
+    "type": "select",
+    "id": "mode",
+    "label": "Display mode",
+    "default": "disabled",
+    "options": [
+    {
+      "value": "enabled",
+      "label": "Enable popup"
+    },
+    {
+      "value": "testing",
+      "label": "Test popup"
+    },
+    {
+      "value": "redirect",
+      "label": "Redirect"
+    },
+    {
+      "value": "disabled",
+      "label": "Disabled"
+    }
+    ],
+    "info": "Test mode displays your popup each time even after dismissing it. Switch to 'Enable popup' once you are happy with how your popup looks."
+  },
+  {
+    "type": "checkbox",
+    "id": "switcher_enable",
+    "label": "Enable dropdown",
+    "default": false,
+    "info": "Dropdown switch for switching manually between shops"
+  },
+  {
+    "type": "range",
+    "id": "popup_seconds",
+    "label": "Delay",
+    "info": "The delay is disabled in the theme editor so you can see it immediately",
+    "default": 5,
+    "min": 2,
+    "max": 60,
+    "step": 1,
+    "unit": "sec"
+  },
+  {
+    "type": "range",
+    "id": "popup_days",
+    "label": "Frequency",
+    "default": 30,
+    "info": "Number of days before a dismissed popup reappears",
+    "min": 2,
+    "max": 30,
+    "step": 1,
+    "unit": "day"
+  },
+  {
+    "type": "text",
+    "id": "popup_title",
+    "label": "Heading",
+    "default": "Are you in the right place?"
+  },
+  {
+    "type": "text",
+    "id": "popup_subtitle",
+    "label": "Sub heading",
+    "default": "Please select a store."
+  },
+  {
+    "type": "text",
+    "id": "close_text",
+    "label": "Close button text",
+    "default": "I'll stay"
+  },
+  {
+    "type": "image_picker",
+    "id": "popup_image",
+    "label": "Image"
+  }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+  {
+    "type": "store",
+    "name": "Store",
+    "settings": [
+    {
+      "type": "image_picker",
+      "id": "flag",
+      "label": "Flag image",
+      "info": "Download image [here](https://github.com/hjnilsson/country-flags/tree/master/png1000px)"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Country name",
+      "placeholder": "Eg. Canada"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Write something about the store...</p>"
+    },
+    {
+      "type": "text",
+      "id": "demonym",
+      "label": "Demonym",
+      "placeholder": "Eg. Canadian"
+    },
+    {
+      "type": "text",
+      "id": "country_code",
+      "label": "Country code",
+      "info": "Use country codes in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) format"
+    },
+    {
+      "type": "text",
+      "id": "currency",
+      "label": "Currency code",
+      "info": "Use currency codes in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) format"
+    },
+    {
+      "type": "text",
+      "id": "domain",
+      "label": "Primary Domain",
+      "placeholder": "example.com",
+      "info": "Your private domain is set in [your 'Domains' settings](/admin/settings/domains)"
+    },
+    {
+      "type": "checkbox",
+      "label": "This is the default store",
+      "id": "default",
+      "info": "NOTE: Make sure that the default is the same on every instance of the store."
+    },
+    {
+      "type": "checkbox",
+      "label": "This is the current store",
+      "id": "current"
+    }
+    ]
+  }
+  ]
+}
+{% endschema %}

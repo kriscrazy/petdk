@@ -14,6 +14,132 @@
     ]
   },
   {
+    "name": "Alternate languages",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Language default"
+      },
+      {
+        "type": "text",
+        "id": "lang_default_url",
+        "label": "URL",
+        "placeholder": "https://example.com"
+      },
+      {
+        "type": "text",
+        "id": "lang_default_lang_code",
+        "label": "Language code",
+        "default": "x-default"
+      },
+      {
+        "type": "header",
+        "content": "Language 1"
+      },
+      {
+        "type": "text",
+        "id": "lang_1_url",
+        "label": "URL",
+        "placeholder": "https://example.com"
+      },
+      {
+        "type": "text",
+        "id": "lang_1_lang_code",
+        "label": "Language code",
+        "info": "Use language codes in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format"
+      },
+      {
+        "type": "checkbox",
+        "id": "lang_1_current",
+        "label": "Is this current language?"
+      },
+      {
+        "type": "header",
+        "content": "Language 2"
+      },
+      {
+        "type": "text",
+        "id": "lang_2_url",
+        "label": "URL",
+        "placeholder": "https://example.com"
+      },
+      {
+        "type": "text",
+        "id": "lang_2_lang_code",
+        "label": "Language code",
+        "info": "Use language codes in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format"
+      },
+      {
+        "type": "checkbox",
+        "id": "lang_2_current",
+        "label": "Is this current language?"
+      },
+      {
+        "type": "header",
+        "content": "Language 3"
+      },
+      {
+        "type": "text",
+        "id": "lang_3_url",
+        "label": "URL",
+        "placeholder": "https://example.com"
+      },
+      {
+        "type": "text",
+        "id": "lang_3_lang_code",
+        "label": "Language code",
+        "info": "Use language codes in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format"
+      },
+      {
+        "type": "checkbox",
+        "id": "lang_3_current",
+        "label": "Is this current language?"
+      },
+      {
+        "type": "header",
+        "content": "Language 4"
+      },
+      {
+        "type": "text",
+        "id": "lang_4_url",
+        "label": "URL",
+        "placeholder": "https://example.com"
+      },
+      {
+        "type": "text",
+        "id": "lang_4_lang_code",
+        "label": "Language code",
+        "info": "Use language codes in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format"
+      },
+      {
+        "type": "checkbox",
+        "id": "lang_4_current",
+        "label": "Is this current language?"
+      },
+      {
+        "type": "header",
+        "content": "Language 5"
+      },
+      {
+        "type": "text",
+        "id": "lang_5_url",
+        "label": "URL",
+        "placeholder": "https://example.com"
+      },
+      {
+        "type": "text",
+        "id": "lang_5_lang_code",
+        "label": "Language code",
+        "info": "Use language codes in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format"
+      },
+      {
+        "type": "checkbox",
+        "id": "lang_5_current",
+        "label": "Is this current language?"
+      }
+    ]
+  },
+  {
     "name": "Colors",
     "settings": [
       {

@@ -1,0 +1,7 @@
+{%- assign url = hreflang | append: '_url' -%}
+{%- assign code = hreflang | append: '_lang_code' -%}
+{%- assign current_url = canonical_url | remove: shop.url -%}
+
+{%- if settings[code] != blank -%}
+  <link rel="alternate" hreflang="{{ settings[code] }}" href="{{ settings[url] }}{{current_url}}" />
+{%- endif -%}

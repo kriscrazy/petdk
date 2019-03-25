@@ -1,0 +1,304 @@
+
+.modal {
+  display: none;
+  bottom: 0;
+  left: 0;
+  opacity: 1;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 25;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+
+  .modal-open & {
+    .modal__inner {
+      -webkit-animation: modal-open 0.5s forwards;
+              animation: modal-open 0.5s forwards;
+    }
+    &:before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(#363636, .5);
+      -webkit-animation: overlay-on 0.5s forwards;
+              animation: overlay-on 0.5s forwards;
+      cursor: pointer;
+    }
+  }
+
+  .modal-closing & {
+    .modal__inner {
+      -webkit-animation: modal-closing 0.5s forwards;
+              animation: modal-closing 0.5s forwards;
+    }
+    &:before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,.2);
+      -webkit-animation: overlay-off 0.5s forwards;
+              animation: overlay-off 0.5s forwards;
+    }
+  }
+
+  .modal-open--solid &:before {
+    background-color: rgba(0,0,0, .2);
+  }
+}
+
+.modal--solid {
+  .modal-open & {
+    &:before {
+      background-color: #000;
+      -webkit-animation: full-overlay-on 0.5s forwards;
+              animation: full-overlay-on 0.5s forwards;
+    }
+  }
+  .modal-closing & {
+    &:before {
+      background-color: #000;
+      -webkit-animation: full-overlay-off 0.5s forwards;
+              animation: full-overlay-off 0.5s forwards;
+    }
+  }
+}
+
+.modal--is-closing {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important; // override .is-transitioning styles
+  overflow: hidden;
+}
+
+.modal--is-active {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important; // override .is-transitioning styles
+  overflow: hidden;
+}
+
+// Class on body element when modal open.
+
+// Only medium-up because iOS jumps to top otherwise
+
+@include media-query($medium-up) {
+  .modal-open {
+    overflow: hidden;
+  }
+}
+
+.modal__inner {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 auto;
+          flex: 0 1 auto;
+  margin: $grid-gutter / 2;
+  max-width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+
+  @include media-query($medium-up) {
+    margin: 40px;
+  }
+
+  .modal--square & {
+    background-color: white;
+    color: #333;
+  }
+
+  img {
+    display: block;
+    max-height: 90vh;
+  }
+}
+
+// No max height on product images
+
+.modal__inner {
+  .image-wrap img {
+    max-height: none;
+  }
+}
+
+.modal__centered {
+  position: relative;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 auto;
+          flex: 0 1 auto;
+  min-width: 1px; // ie10 thing
+  max-width: 100%;
+}
+
+.modal__centered-content {
+  .modal--square & {
+    max-height: 80vh;
+    padding: $grid-gutter * 2;
+    min-width: 200px;
+    min-height: 200px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+
+    @include media-query($medium-up) {
+      padding: $grid-gutter * 1.5;
+      max-height: 90vh;
+      max-width: 1200px;
+    }
+  }
+}
+
+.modal__close {
+  border: 0;
+  padding: $grid-gutter/2;
+  @include media-query($medium-up) {
+    padding: $grid-gutter;
+  }
+  position: fixed;
+  top: 0;
+  right: 0;
+  color: #333;
+  width: 40px;
+  height: 40px;
+
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  &:hover,
+  &:focus {
+    color: #333;
+  }
+
+  .modal--square & {
+    position: absolute;
+    color: #333;
+    padding: $grid-gutter / 3;
+
+    &:hover,
+    &:focus {
+      color: #333;
+    }
+  }
+}
+
+// Ajax page adjustments
+
+.modal {
+  .page-content,
+  .page-width {
+    padding: 0;
+  }
+}
+
+
+
+// Overlay animations (modals)
+
+@-webkit-keyframes overlay-on {
+  from { opacity: 0; }
+  to { opacity: 0.6; }
+}
+
+@keyframes overlay-on {
+  from { opacity: 0; }
+  to { opacity: 0.6; }
+}
+
+@-webkit-keyframes overlay-off {
+  from { opacity: 0.6; }
+  to { opacity: 0; }
+}
+
+@keyframes overlay-off {
+  from { opacity: 0.6; }
+  to { opacity: 0; }
+}
+
+@-webkit-keyframes full-overlay-on {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes full-overlay-on {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@-webkit-keyframes full-overlay-off {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes full-overlay-off {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@-webkit-keyframes modal-open {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(30px);
+            transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes modal-open {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(30px);
+            transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes modal-closing {
+  from {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+  }
+}
+
+@keyframes modal-closing {
+  from {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+  }
+}

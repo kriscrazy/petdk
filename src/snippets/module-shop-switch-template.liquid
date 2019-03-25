@@ -1,0 +1,20 @@
+<script id="StoreSwitcherTemplate" type="text/template">
+  {% raw %}
+  <button class="dropdown-button">
+    <img src="{{currentImg}}" alt="{{currentTitle}}" class="dropdown-button__flag flag-img">
+    <div class="dropdown-button__text">
+      {{currentTitle}} ({{currentCurrency}})
+    </div>
+  </button>
+  <div class="dropdown-options">
+    {{#countries}}
+      <a class="option__item{{#if current}} current{{/if}}" href="{{url}}">
+        <img src="{{img}}" alt="{{title}}" class="option__flag flag-img">
+        <div class="option__text">
+          {{title}} ({{currency}})
+        </div>
+      </a>
+    {{/countries}}
+  </div>
+  {% endraw %}
+</script>

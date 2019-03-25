@@ -4,16 +4,25 @@
   <script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  
+
   <meta name="google-site-verification" content="5u7IHRoPJkSPCuScXoIzd5HtntvOex5UoIFQ5Zzy06g">
   <meta name="google-site-verification" content="spjHrGcB2NxGxFhfw_t2bYnhruu4hFyAdU_TIpoL2o4">
-  
+
+  <!--  HREF LANG  -->
+
+   {% include "hreflang" with 'lang_1' %}
+   {% include "hreflang" with 'lang_2' %}
+   {% include "hreflang" with 'lang_3' %}
+   {% include "hreflang" with 'lang_4' %}
+   {% include "hreflang" with 'lang_5' %}
+   {% include "hreflang" with 'lang_default' %}
+
   <!-- start Omniconvert.com code -->
   <link rel="dns-prefetch" href="//app.omniconvert.com" />
   <script type="text/javascript">window._mktz=window._mktz||[];</script>
-  <script src="//cdn.omniconvert.com/js/a58259c.js"></script>
+  <!-- <script src="//cdn.omniconvert.com/js/a58259c.js"></script> -->
   <!-- end Omniconvert.com code -->
-  
+
   <!-- Hotjar Tracking Code for https://petdk.dk/ -->
   <script>
     (function(h,o,t,j,a,r){
@@ -46,6 +55,8 @@
   {% include 'head_fonts' %}
   {{ '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' | stylesheet_tag }}
   {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'shop-switch.scss.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'vendor.js' | asset_url }}" defer></script>
 
   {{ content_for_header }}
 
@@ -68,8 +79,8 @@
         {% endif %}
       {% endif %}
     {% endif %}
-  {% endif %}  
-  
+  {% endif %}
+
   {% section 'top-bar' %}
 
   <div id="PageContainer"{% if color %} class="{{ color }}"{% endif %}>
@@ -135,9 +146,9 @@
             </a>
           {% else %}
             <a href="/" itemprop="url" class="site-header__logo-text">{{ shop.name }}</a>
-          {% endif %}  
+          {% endif %}
         </div>
-        
+
           <p>
             PETDK<br>
             Vognmagervej 3<br>
@@ -146,6 +157,9 @@
             CVR nr.: 37821152<br>
             Telefon: +45 60645225
           </p>
+
+        <div class="shop-switch__dropdown footer__shop-switch" onclick="window.openshopswitch()"></div>
+
 
         {% if linklists.footer != blank %}
           <div class="link-list">
@@ -174,7 +188,7 @@ vertical-align: bottom;">
       </div>
     </footer>
   </div>
- 
+
   <script type="text/javascript">
     if ( window.devicePixelRatio > 1 ) {
       var retinaImages = document.getElementsByClassName('retina-img');
@@ -206,7 +220,7 @@ vertical-align: bottom;">
 
   {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
   {{ 'theme.js' | asset_url | script_tag }}
- 
+
   <script>
     {% if newHash %}
       $(function() {
@@ -219,8 +233,12 @@ vertical-align: bottom;">
       });
     {% endif %}
   </script>
-           
+
+  <script src="{{ 'custom.js' | asset_url }}" defer></script>
+
   {% include 'subscription-theme-footer' %}
   {% include 'back-in-stock-helper' %}
+  {% section 'module-shop-switch' %}
+
 </body>
 </html>

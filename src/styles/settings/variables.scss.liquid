@@ -1,0 +1,79 @@
+/**
+ * All the variables that can be used to extract Shopify global settings
+ */
+
+/* Colors */
+
+
+/*============================================================================
+  Grid Breakpoints and Class Names
+    - Do not change the variable names
+==============================================================================*/
+$grid-medium: 640px;
+$grid-large: 1008px;
+$grid-desktop: 1240px;
+$grid-widescreen: 1500px;
+$grid-gutter: 24px;
+$grid-gutter--medium: 30px;
+$grid-gutter--large: 50px;
+$grid-gutter--xlarge: 80px;
+
+$small: 'small';
+$medium: 'medium';
+$medium-down: 'medium-down';
+$medium-up: 'medium-up';
+$large: 'large';
+$large-down: 'large-down';
+$large-up: 'large-up';
+$desktop: 'desktop';
+$desktop-down: 'desktop-down';
+$desktop-up: 'desktop-up';
+$widescreen: 'widescreen';
+
+// $phone: "screen and (max-width: 640px)";
+// $tablet: "screen and (min-width: 641px) and (max-width: 1007px)";
+// $tablet-and-up:    "screen and (min-width: 641px)";
+// $pocket: "screen and (max-width: 1007px)";
+// $lap:    "screen and (min-width: 1008px) and (max-width: 1239px)";
+// $lap-and-up:  "screen and (min-width: 1008px)";
+// $desk:   "screen and (min-width: 1240px)";
+// $widescreen:  "screen and (min-width: 1500px)";
+
+// The `$breakpoints` list is used to build our media queries.
+// You can use these in the media-query mixin.
+$breakpoints: (
+  $small '(max-width: #{$grid-medium - 1})', // $phone
+  $medium '(min-width: #{$grid-medium}) and (max-width: #{$grid-large - 1})', // $tablet
+  $medium-down '(max-width: #{$grid-large - 1})', // $pocket
+  $medium-up '(min-width: #{$grid-medium})', // $tablet-and-up
+  $large '(min-width: #{$grid-large}) and (max-width: #{$grid-desktop - 1})', // $lap
+  $large-down '(max-width: #{$grid-desktop - 1})',
+  $large-up '(min-width: #{$grid-large})', // $lap-and-up
+  $desktop '(min-width: #{$grid-desktop})', // $desk
+  $desktop-down '(max-width: #{$grid-widescreen - 1})',
+  $widescreen '(min-width: #{$grid-widescreen})' // $widescreen
+);
+
+
+/*============================================================================
+  Generate breakpoint-specific column widths and push classes
+    - Default column widths: $breakpoint-has-widths: ($small, $medium-up);
+    - Default is no push classes
+    - Will not work if `styles/global/grid.scss` is removed
+==============================================================================*/
+$breakpoint-has-widths: ($small,$medium,$medium-down,$medium-up,$large,$large-down,$large-up,$desktop,$desktop-down,$desktop-up,$widescreen);
+
+$breakpoint-has-push: ($small,$medium,$medium-down,$medium-up,$large,$large-down,$large-up,$desktop,$desktop-down,$desktop-up,$widescreen);
+
+/*================ Sizing Variables ================*/
+$width-site: 1420px;
+$width-site--medium: 1260px;
+$width-site--narrow: 800px;
+$width-site--extra-narrow: 800px;
+$gutter: 24px;
+$gutter--medium: 50px;
+$gutter--large: 80px;
+
+/*================ Z-Index ================*/
+$z-index-dropdown: 2;
+$z-index-skip-to-content: 10000; // really high to be safe of app markup
